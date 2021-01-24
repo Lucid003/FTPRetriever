@@ -20,7 +20,7 @@ while True:
                 try:
                     upload_file = file[:-3] + ".zip" # If the go file exists, we're assuming a zip file does, as well
                     print("File found, connecting to FTP")
-                    ftp = ftplib.FTP('deddmo.wftpserver.com') # Create FTP object
+                    ftp = ftplib.FTP('demo.wftpserver.com') # Create FTP object
                     print("Logging into FTP")
                     ftp.login('demo', 'demo') # Login to FTP server
                     ftp.cwd('/upload/') # navigate to upload directory
