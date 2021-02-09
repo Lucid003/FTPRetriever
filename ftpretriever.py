@@ -20,7 +20,7 @@ def main():
     parser.add_argument('-s', '--source',
                         help='Source folder path. Ex: -s C:\source',
                         required=True,
-                        dest='path')
+                        dest='source')
     parser.add_argument('-d', '--dest',
                         help='Destination path on FTP server. Ex: -d /upload/',
                         required=True,
@@ -58,7 +58,7 @@ def main():
         if perf_counter() - time_stamp >= 5: # if it's been 5 seconds since time_stamp
             print("Checking for files")
             time_stamp = perf_counter() # reset time_stamp
-            path_contents = os.listdir(args.path)
+            path_contents = os.listdir(args.source)
             for file in path_contents:
                 if file[-3:] == '.go': # if file ends in '.go'
                     try:
@@ -68,13 +68,13 @@ def main():
                         print("Logging into FTP")
                         ftp.login(args.user, args.password) # Login to FTP server
                         ftp.cwd(args.dest_path) # navigate to upload directory
-                        print('Transfering file: {}'.format(os.path.join(args.path, upload_file)))
-                        print("{}".format(os.path.join(args.path, file[:-3] + ".zip")))
-                        ftp.storbinary('STOR ' + upload_file, open(os.path.join(args.path, upload_file), 'rb')) # send the file
-                        print('Deleting file: {}'.format(os.path.join(args.path, file)))
-                        print('Deleting file: {}'.format(os.path.join(args.path, upload_file)))
-                        os.remove(os.path.join(args.path, file)) # delete the go file
-                        os.remove(os.path.join(args.path, upload_file)) # delete the zip file
+                        print('Transfering file: {}'.format(os.path.join(args.source, upload_file)))
+                        print("{}".format(os.path.join(args.source, file[:-3] + ".zip")))
+                        ftp.storbinary('STOR ' + upload_file, open(os.path.join(args.source, upload_file), 'rb')) # send the file
+                        print('Deleting file: {}'.format(os.path.join(args.source, file)))
+                        print('Deleting file: {}'.format(os.path.join(args.source, upload_file)))
+                        os.remove(os.path.join(args.source, file)) # delete the go file
+                        os.remove(os.path.join(args.source, upload_file)) # delete the zip file
                     except ftplib.all_errors as e:
                         print(e)
 
